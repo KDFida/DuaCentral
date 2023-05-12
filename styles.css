@@ -1,0 +1,336 @@
+/* General styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-image: url("5540822.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 1;
+}
+
+header {
+  text-align: center;
+  padding: 20px 0;
+  position: relative;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: calc(100vh - 150px);
+  padding-top: 40px;
+}
+
+.arabic-text {
+  font-size: 50px;
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: teal;
+}
+
+.hidden {
+  display: none;
+}
+
+.heart {
+  font-size: 70px;
+  cursor: pointer;
+  color: #ccc;
+  user-select: none;
+}
+
+.heart.red {
+  color: red;
+}
+
+.dua-container {
+  border: 1px solid #ccc;
+  padding: 1em;
+  margin: 1em 0;
+}
+
+.favorite-dua {
+  border: 2px dashed #4CAF50;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+/* Dropdown menu styles */
+.dropdown-wrapper {
+  position: relative;
+  display: inline-block;
+  max-width: 300px;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.dropdown-wrapper::after {
+  content: "\25BC";
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 14px;
+  color: #777;
+}
+
+select {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  padding: 12px 16px;
+  margin: 0;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+select:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
+
+/* Make the dropdown menu more consistent across browsers */
+select:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #000;
+}
+
+
+h1 {
+  margin: 0;
+}
+
+.content {
+  max-width: 800px;
+  text-align: center;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  display: -webkit-inline-box;
+  align-items: center; /* Align items vertically */
+}
+
+nav li {
+  margin-right: 15px;
+}
+
+nav a {
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+  padding: 1px 0;
+  font-size: 16px; /* Set a consistent font size */
+  line-height: 1; /* Set a consistent line-height */
+  vertical-align: middle; /* Align items vertically */
+}
+
+/* Create the underline effect on hover */
+nav a:before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #333;
+  visibility: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+nav a:hover:before {
+  visibility: visible;
+  width: 100%;
+}
+
+/* Position the top-right navigation */
+.top-right {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+/* Add some space between the content and bottom navigation */
+.bottom {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+footer {
+  padding: 20px 0;
+  text-align: center;
+  background-color: #f1f1f1;
+}
+
+.latest-news {
+  max-width: 800px;
+  margin: 0 auto 20px;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 10em);
+}
+
+.login-form {
+  background-color: #f9f9f9;
+  padding: 2em;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 300px;
+}
+
+.login-form input[type="text"],
+.login-form input[type="email"],
+.login-form input[type="password"] {
+  width: 100%;
+  padding: 0.5em;
+  margin: 0.5em 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.login-form label {
+  font-weight: bold;
+}
+
+.login-form input[type="submit"] {
+  width: 100%;
+  padding: 0.75em;
+  background-color: #4CAF50;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 1em;
+}
+
+.login-form input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+/* Scroll to bottom */
+.latest-news {
+  position: sticky;
+  bottom: 0;
+}
+
+
+.success-message {
+  background-color: #e0f2f1;
+  border: 1px solid #4db6ac;
+  border-radius: 5px;
+  padding: 20px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.success-message button {
+  background-color: #4db6ac;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 10px 2px;
+  transition-duration: 0.4s;
+}
+
+.success-message button:hover {
+  background-color: #00897b;
+  color: white;
+}
+
+
+.accountItem {
+  position: relative;
+  display: inline-block;
+}
+
+.accountLink-heading {
+  font-weight: bold;
+  padding: 6px 12px;
+  color: #333;
+}
+
+.accountLink {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  top: 35px;
+  right: 0;
+  min-width: 160px;
+  margin: 2px 0 0;
+  font-size: 14px;
+  text-align: left;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 6px 12px rgba(0,0,0,.175);
+  border-radius: 4px;
+  padding: 5px 0;
+}
+
+.accountLink a {
+  display: block;
+  padding: 10px 20px;
+  color: #333;
+  text-decoration: none;
+}
+
+#accountItem:hover .accountLink,
+#accountItem:focus-within .accountLink {
+  display: block;
+}
+
+.accountLink a:hover {
+  background-color: #f5f5f5;
+}
+
+.login-message {
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px;
+  background-color: #ff8f8f;
+  border-radius: 10px;
+  font-size: 0.8em;
+  font-weight: bold;
+  color: white;
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.login-message.visible {
+  top: 20px;
+  opacity: 1;
+}
+
+#quoteOfTheDay {
+  font-size: 1.5em;
+  font-weight: bold;
+  border: 2px solid #4CAF50; 
+  padding: 10px;
+  border-radius: 5px;
+  display: inline-block; 
+  line-height: 1.4;
+  background-color: white;
+}
