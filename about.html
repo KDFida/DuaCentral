@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>About | DuaCentral</title>
+      <link rel="stylesheet" href="styles.css">
+      <style>
+         p1 {
+         font-size: 1.2rem;
+         line-height: 1.6;
+         margin-bottom: 1.5rem;
+         text-align: justify;
+         }
+      </style>
+      <script src="https://www.gstatic.com/firebasejs/9.6.8/firebase-app-compat.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/9.6.8/firebase-auth-compat.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/9.6.8/firebase-firestore-compat.js"></script>
+      <script>
+         const firebaseConfig = {
+         apiKey: process.env.FIREBASE_API_KEY,
+         authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+         projectId: process.env.FIREBASE_PROJECT_ID,
+         storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+         messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+         appId: process.env.FIREBASE_APP_ID
+         };
+         firebase.initializeApp(firebaseConfig);
+         
+         firebase.auth().onAuthStateChanged((user) => {
+         const loginItem = document.getElementById("loginItem");
+         const accountItem = document.getElementById("accountItem");
+         const favoritesLink = document.getElementById("favoritesLink");
+         
+         if (user) {
+         // User is signed in
+         const userId = user.uid;
+         const db = firebase.firestore();
+         const userRef = db.collection("users").doc(userId);
+         
+         // Check if the user document already exists
+         userRef.get().then((doc) => {
+         if (!doc.exists) {
+         // If the user document doesn't exist, create it
+         userRef.set({}).then(() => {
+           console.log("User document created.");
+         }).catch((error) => {
+           console.error("Error creating user document:", error);
+         });
+         }
+         });
+         
+         accountItem.style.display = "inline";
+         loginItem.style.display = "none";
+         favoritesLink.href = "favorites.html"; // Set the Favorites link for signed-in users
+         
+         } else {
+         // User is signed out
+         accountItem.style.display = "none";
+         loginItem.style.display = "inline";
+         favoritesLink.href = "login.html"; // Set the Favorites link for signed-out users
+         }
+         
+         // Always show the Favorites link
+         favoritesLink.style.display = "inline";
+         });
+         
+         document.addEventListener("DOMContentLoaded", () => {
+             const signOutLink = document.getElementById("signOutLink");
+             signOutLink.onclick = () => {
+                 firebase.auth().signOut().then(() => {
+                     // Sign-out successful
+                     window.location.reload();
+                 }).catch((error) => {
+                     // An error occurred
+                     console.error('Error signing out:', error);
+                 });
+             };
+         });
+      </script>
+   </head>
+   <body>
+      <header>
+         <br><br>
+         <h1>DuaCentral</h1>
+         <nav class="top-right">
+            <ul>
+               <br>
+               <li><a href="index.php">Home</a></li>
+               <li><a href="about.html">About</a></li>
+               <li><a href="contact.html">Contact</a></li>
+               <li><a href="favorites.html" id="favoritesLink" style="display:none;">Favorites</a></li>
+               <li id="loginItem"><a href="login.html" id="loginLink">Log In</a></li>
+               <li id="accountItem" style="display:none;">
+                  <span id="accountLink" class="accountLink-heading">My Account</span>
+                  <div id="accountDropdown" class="accountLink">
+                     <a href="#" id="signOutLink">Logout</a>
+                  </div>
+               </li>
+            </ul>
+         </nav>
+      </header>
+      <div class="container">
+         <section class="content">
+            <h2>About Us</h2>
+            <p1>Welcome to DuaCentral - a platform created by a computer science student who had a simple goal in mind: to help Muslims around the world. With a passion for coding and a desire to make a positive impact, this student embarked on a journey to create a platform that would provide Muslims with easy access to their daily duas.
+               <br><br> DuaCentral is an expression of our deep-seated belief in the power of prayer and its importance in our lives. We understand that reciting duas is an essential part of a Muslim's daily routine, and our aim is to make this process as effortless and convenient as possible.
+               <br><br> Our platform is designed with a simple yet elegant interface, making it easy for you to find and save your favorite duas. We strive to provide accurate and authentic information on each dua, including Arabic text, transliteration, and meaning, allowing you to connect with each dua on a deeper level.
+               <br><br> We believe that technology can play a significant role in making the world a better place, and DuaCentral is our humble contribution to that goal. Our platform is a testament to the power of passion and innovation and serves as an inspiration for all those who believe in the transformative potential of technology.
+               <br><br> Thank you for being a part of our journey, and we hope that DuaCentral helps you in your daily dua recitation and brings you closer to Allah (SWT).
+            </p1>
+         </section>
+      </div>
+      <nav class="bottom">
+         <ul>
+            <li><a href="index.php">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="login.html">Log In</a></li>
+         </ul>
+      </nav>
+      <footer>
+         <p>&copy; 2023 DuaCentral. All rights reserved.</p>
+      </footer>
+   </body>
+</html>
