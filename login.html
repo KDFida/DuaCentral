@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>DuaCentral - Login</title>
+      <link rel="stylesheet" href="styles.css">
+      <script src="https://www.gstatic.com/firebasejs/9.6.8/firebase-app-compat.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/9.6.8/firebase-auth-compat.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/9.6.8/firebase-firestore-compat.js"></script>
+   </head>
+   <body>
+      <header>
+         <br><br>
+         <h1>DuaCentral</h1>
+         <nav class="top-right">
+            <ul>
+               <br>
+               <li><a href="index.php">Home</a></li>
+               <li><a href="about.html">About</a></li>
+               <li><a href="contact.html">Contact</a></li>
+               <li><a href="login.html">Log in</a></li>
+            </ul>
+         </nav>
+      </header>
+      <main>
+         <div class="container">
+            <div class="login-container">
+               <form class="login-form" onsubmit="loginUser(event)">
+                  <label for="username">Username:</label> <input type="text" id="username" name="username"> <label for="password">Password:</label> <input type="password" id="password" name="password"> <input type="submit" value="Log in">
+                  <p>Forgot password? <a href="forgottenPwd.html">Click here</a></p>
+                  <p>Don't have an account? <a href="register.html">Create an account</a></p>
+               </form>
+            </div>
+         </div>
+      </main>
+      <footer>
+         <p>&copy; 2023 DuaCentral. All rights reserved.</p>
+      </footer>
+      <script>
+         const firebaseConfig = {
+         apiKey: process.env.FIREBASE_API_KEY,
+         authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+         projectId: process.env.FIREBASE_PROJECT_ID,
+         storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+         messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+         appId: process.env.FIREBASE_APP_ID
+         };
+         // Initialize Firebase
+         firebase.initializeApp(firebaseConfig);
+         async function loginUser(event) {
+             event.preventDefault();
+             const email = document.getElementById('username').value;
+             const password = document.getElementById('password').value;
+             try {
+                 const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+                 const user = userCredential.user;
+                 console.log('User logged in:', user);
+                 // Redirect to another page or show a success message
+                 window.location.href = "index.php";
+             } catch (error) {
+                 console.error('Error logging in user:', error);
+                 // Show an error message to the user
+             }
+         }
+      </script>
+   </body>
+</html>
