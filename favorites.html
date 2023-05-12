@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>DuaCentral - Favorites</title>
+      <link rel="stylesheet" href="styles.css">
+      <script src="https://www.gstatic.com/firebasejs/9.6.8/firebase-app-compat.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/9.6.8/firebase-auth-compat.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/9.6.8/firebase-firestore-compat.js"></script>
+      <script>
+         // Your web app's Firebase configuration
+         const firebaseConfig = {
+         apiKey: process.env.FIREBASE_API_KEY,
+         authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+         projectId: process.env.FIREBASE_PROJECT_ID,
+         storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+         messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+         appId: process.env.FIREBASE_APP_ID
+         };
+         // Initialize Firebase
+         firebase.initializeApp(firebaseConfig);
+         
+         firebase.auth().onAuthStateChanged((user) => {
+         const loginItem = document.getElementById("loginItem");
+         const accountItem = document.getElementById("accountItem");
+         const favoritesLink = document.getElementById("favoritesLink");
+         
+         if (user) {
+         // User is signed in
+         loadFavorites();
+         
+         const userId = user.uid;
+         const db = firebase.firestore();
+         const userRef = db.collection("users").doc(userId);
+         
+         // Check if the user document already exists
+         userRef.get().then((doc) => {
+         if (!doc.exists) {
+         // If the user document doesn't exist, create it
+         userRef.set({}).then(() => {
+           console.log("User document created.");
+         }).catch((error) => {
+           console.error("Error creating user document:", error);
+         });
+         }
+         });
+         
+         accountItem.style.display = "inline";
+         loginItem.style.display = "none";
+         favoritesLink.href = "favorites.html"; // Set the Favorites link for signed-in users
+         
+         } else {
+         // User is signed out
+         accountItem.style.display = "none";
+         loginItem.style.display = "inline";
+         favoritesLink.href = "login.html"; // Set the Favorites link for signed-out users
+         }
+         
+         // Always show the Favorites link
+         favoritesLink.style.display = "inline";
+         });
+         
+         
+         function loadFavorites() {
+         const userId = firebase.auth().currentUser.uid;
+         const db = firebase.firestore();
+         const userRef = db.collection("users").doc(userId);
+         const favoritesList = document.getElementById("favoritesList");
+         
+         userRef.get().then((doc) => {
+         if (doc.exists) {
+         const userData = doc.data();
+         const favorites = userData.favorites || [];
+         
+         favorites.forEach((favoriteDuaId) => {
+         db.collection("duas").doc(favoriteDuaId).get().then((duaDoc) => {
+           if (duaDoc.exists) {
+             const duaData = duaDoc.data();
+         
+             const duaContainer = document.createElement("div");
+             duaContainer.classList.add("favorite-dua");
+         
+             const duaTitle = document.createElement("h3");
+             duaTitle.textContent = duaData.Title;
+             duaContainer.appendChild(duaTitle);
+         
+             const duaArabic = document.createElement("p");
+             duaArabic.innerHTML = `<strong>Arabic:</strong> <span style="font-size: 2em;">${duaData.Arabic}</span>`;
+             duaContainer.appendChild(duaArabic);
+         
+             const duaTransliteration = document.createElement("p");
+             duaTransliteration.innerHTML = `<strong>Transliteration:</strong> <span>${duaData.Transliteration}</span>`;
+             duaContainer.appendChild(duaTransliteration);
+         
+             const duaMeaning = document.createElement("p");
+             duaMeaning.innerHTML = `<strong>Meaning:</strong> <span>${duaData.Meaning}</span>`;
+             duaContainer.appendChild(duaMeaning);
+         
+             const unfavButton = document.createElement("button");
+             unfavButton.innerHTML = `&#x2764;`;
+             unfavButton.style.fontFamily = "Arial, sans-serif";
+             unfavButton.style.fontSize = "2em";
+             unfavButton.style.color = "red";
+             unfavButton.style.border = "none";
+             unfavButton.style.backgroundColor = "transparent";
+             unfavButton.onclick = () => {
+               const index = favorites.indexOf(favoriteDuaId);
+               favorites.splice(index, 1);
+         
+               userRef.update({ favorites }).then(() => {
+                 duaContainer.remove();
+               }).catch((error) => {
+                 console.error("Error updating favorites:", error);
+               });
+             };
+             duaContainer.appendChild(unfavButton);
+         
+             favoritesList.appendChild(duaContainer);
+           }
+         });
+         });
+         }
+         });
+         }
+         
+         document.addEventListener("DOMContentLoaded", () => {
+             const signOutLink = document.getElementById("signOutLink");
+             signOutLink.onclick = () => {
+                 firebase.auth().signOut().then(() => {
+                     // Sign-out successful
+                     window.location.reload();
+                 }).catch((error) => {
+                     // An error occurred
+                     console.error('Error signing out:', error);
+                 });
+             };
+         });
+         
+         const favoritesLink = document.getElementById("favoritesLink");
+      </script>
+   </head>
+   <body>
+      <header>
+         <h1 style="text-align: left; margin-left: 20px;">DuaCentral</h1>
+         <nav class="top-right">
+            <ul>
+               <br>
+               <li><a href="index.php">Home</a></li>
+               <li><a href="about.html">About</a></li>
+               <li><a href="contact.html">Contact</a></li>
+               <li><a href="favorites.html" id="favoritesLink" style="display:none;">Favorites</a></li>
+               <li id="loginItem"><a href="login.html" id="loginLink">Log In</a></li>
+               <li id="accountItem" style="display:none;">
+                  <span id="accountLink" class="accountLink-heading">My Account</span>
+                  <div id="accountDropdown" class="accountLink">
+                     <a href="#" id="signOutLink">Logout</a>
+                  </div>
+               </li>
+            </ul>
+         </nav>
+      </header>
+      <div class="container">
+         <main class="content">
+            <h2>Your Favorite Duas</h2>
+            <div id="favoritesList"></div>
+         </main>
+      </div>
+      <footer>
+         <p>&copy; 2023 DuaCentral. All rights reserved.</p>
+      </footer>
+   </body>
+</html>
