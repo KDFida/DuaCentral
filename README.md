@@ -38,4 +38,4 @@ Contributions are welcome! If you find any issues or have suggestions for improv
 
 ## Get in Touch
 
-If you have any questions or feedback, feel free to contact us directly using the email: [Developerfida@gmail.com](mailto:Developerfida@gmail.com).
+If you have any questions or feedback, feel free to contact us directly using the email: [developerfida@gmail.com](mailto:developerfida@gmail.com).
