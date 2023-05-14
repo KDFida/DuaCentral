@@ -1,5 +1,7 @@
 # DuaCentral
 
+Link to website: http://duacentral.infinityfreeapp.com/
+
 DuaCentral is a platform created with the goal of helping Muslims around the world access their daily duas conveniently. It provides a simple yet elegant interface for finding and saving favorite duas, along with accurate Arabic text, transliteration, and meaning. The platform is designed to make dua recitation effortless, allowing users to connect with each dua on a deeper level.
 
 ## Technologies Used
